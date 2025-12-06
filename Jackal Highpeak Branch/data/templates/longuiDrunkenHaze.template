@@ -1,0 +1,76 @@
+
+[action_longuiDrunkenMaster]
+isLocked: if self.tags(includes='isDrunk')
+iconImage:ROOT:\data\images\iconWineCarrier.png
+displayType:action
+whenBuilding_cannotMove:true
+ai_isHighPriority: if self.numberOfUnitsInEnemyTeam(withinRange=300, greaterThan=5, withTag='infantry')  and self.numberOfUnitsInTeam(withTag='taifeng', greaterThan=0, withinRange=600)
+price: Wine=30
+
+fireTurretXAtGround: 1
+fireTurretXAtGround_withProjectile:wineJar
+fireTurretXAtGround_withOffset:0,0
+
+spawnEffects: CUSTOM:gettingDrunk, CUSTOM:wineSplat*3
+text: Drunken haze
+description: -Alcoholic vapours temporarily decreaes Hit points and move speed of nearby enemy units\n -Hazed units can burn
+buildSpeed: 0s
+addActionCooldownTime: 30s
+pos: 1
+
+[projectile_wineJar]
+mutatorHaze_ifUnitWithTags: bio, magical
+mutatorHaze_addResourcesAreaHit: Hangover=15
+life: 120
+speed: 20
+drawSize: 0
+areaDamage: 0
+areaRadius: 100
+targetGround: true
+buildingDamageMultiplier: 2.5
+
+explodeEffect: CUSTOM:wineJar*3
+explodeOnEndOfLife: true
+
+[effect_gettingDrunk]
+alsoPlaySound:ROOT:\data\soundFx\flameThrower.ogg
+fadeInTime:10
+alwayStartDirAtZero:true
+attachedToUnit: true
+life: 30
+alpha: 1
+image: ROOT:\data\images\auraWine.png
+priority: high
+drawUnderUnits:true
+scaleFrom:0.5
+scaleTo: 1.5
+
+[effect_wineJar]
+
+hOffset:20
+attachedToUnit: false
+life: 50
+alpha: 1
+scaleFrom:0.1
+scaleTo: 0.9
+xOffsetRelativeRandom: 5
+yOffsetRelativeRandom: 5
+image: ROOT:\data\images\wineReach.png
+priority: high
+drawUnderUnits:false
+dirSpeedRandom:5
+dirOffsetRandom:360
+physics:true
+
+[effect_wineSplat]
+attachedToUnit: false
+life: 60
+alpha: 0.5
+physics: true
+scaleFrom:1.1
+scaleTo: 0.2
+xSpeedRelativeRandom: 1.5
+ySpeedRelativeRandom: 1.5
+hSpeed: 1
+image: ROOT:\data\images\wine.png
+drawUnderUnits:false

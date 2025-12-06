@@ -1,0 +1,4 @@
+[hiddenAction_bloodlust]
+requireConditional: if self.globalTeamTags(includes='orcBloodlust')
+autoTriggerOnEvent: killedAnyUnit
+setResourcesWithLogic: hp=self.hp + ${core.maxHp*0.05}

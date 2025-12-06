@@ -1,0 +1,1271 @@
+[core]
+strictLevel: 1
+logIfCreditResourceUsed:true
+autoTriggerCheckRate:every8Frames
+#----------------------------------(basicMechanics)---------------------------------------------
+
+[attack]
+aimOffsetSpread:0
+
+
+[hiddenAction_Prisoner]
+requireConditional:if self.resource(type='Prisoner',lessThan=200)
+autoTriggerOnEvent: killedAnyUnit
+addResources: Prisoner=1
+
+[hiddenAction_regenBio]
+requireConditional: if numberOfUnitsInNeutralTeam(withTag='winter', lessThan=1)
+autoTrigger: if self.tags(includes='bio')
+addResources: hp=${core.maxHp*0.0015}
+
+[hiddenAction_regenMagical]
+requireConditional: if numberOfUnitsInNeutralTeam(withTag='winter', lessThan=1)
+autoTrigger: if self.tags(includes='magical')
+addResources: hp=${core.maxHp*0.005}
+
+[hiddenAction_regenEtheral]
+requireConditional: if not self.hasFlag(id=1) and self.tags(includes='etheral')
+autoTrigger: if numberOfUnitsInTeam(withTag='lodestone', withinRange=200, greaterThan=0) or numberOfUnitsInTeam(withTag='marker', withinRange=100, greaterThan=0)
+addResources: hp=${core.maxHp*0.0075}
+
+#[hiddenAction_fadingEtheral]
+#requireConditional: if not self.hasFlag(id=1) and self.tags(includes='etheral')
+#autoTrigger: if numberOfUnitsInTeam(withTag='lodestone', withinRange=200, lessThan=1) and numberOfUnitsInTeam(withTag='marker', withinRange=125, lessThan=1)
+#addResources: hp=-${core.maxHp*0.075}
+#spawnEffects: CUSTOM:fadingEtheralEffect
+
+[effect_fadingEtheralEffect]
+fadeInTime:10
+color:#81f7ff
+attachedToUnit: false
+alpha:0.5
+life: 120
+scaleFrom:0.6
+scaleTo: 1
+xSpeedRelativeRandom: 0.05
+ySpeedRelativeRandom: 0.05
+hSpeed: 0.05
+image: ROOT:\data\images\smoke.png
+drawUnderUnits:false
+
+[hiddenAction_aggresiveUnits]
+autoTrigger: if self.hasUnitInTeam(withTag='neutral') and not self.tags(includes='neutral')
+temporarilyAddTags:neutral
+
+[hiddenAction_maximumSpirit]
+autoTrigger: if self.isResourceLargerThan( source='Spirit',compareTarget='maxSpirit',byMoreThan=0)
+
+resourceAmount:Spirit
+resourceAmount_setValue:0
+resourceAmount_addOtherResource:maxSpirit
+
+[hiddenAction_noFood]
+autoTrigger: if self.globalTeamTags(includes='factionHaunting') or self.globalTeamTags(includes='factionTroll') or self.globalTeamTags(includes='factionTheWizard')
+resourceAmount:Food
+resourceAmount_setValue:0
+
+[hiddenAction_noLodging]
+autoTrigger: if self.globalTeamTags(includes='factionHaunting') or self.globalTeamTags(includes='factionTrog')
+resourceAmount:Lodging
+resourceAmount_setValue:0
+
+[graphics]
+showTransportBar:false
+#----------------------------------(globalResources)---------------------------------------------
+
+[global_resource_Lodging]
+iconImage:ROOT:\data\images\lodgingIcon.png
+displayColorUseInText:false
+displayPos:1
+displayWhenZero:false
+displayName: Lodging
+displayColor:#ffffff
+displayRoundedDown:true
+hidden:false
+
+[global_resource_Food]
+iconImage:ROOT:\data\images\foodIcon.png
+displayColorUseInText:false
+displayPos:2
+#global resource, shared with all units on team
+displayName: Food
+displayColor:#f5e6b4
+displayRoundedDown:true
+hidden:false
+
+[global_resource_Emerald]
+iconImage:ROOT:\data\images\emeraldIcon.png
+displayColorUseInText:false
+displayPos:3
+#global resource, shared with all units on team
+displayName: Emerald
+displayColor:#00d546
+displayRoundedDown:true
+hidden:false
+
+[global_resource_Gazul]
+iconImage:ROOT:\data\images\gazulIcon.png
+displayColorUseInText:false
+displayPos:3
+#global resource, shared with all units on team
+displayName: Gazul
+displayColor:#00d5d2
+displayRoundedDown:true
+hidden:false
+
+[global_resource_Gazoo]
+iconImage:ROOT:\data\images\gazooIcon.png
+displayColorUseInText:false
+displayPos:4
+#global resource, shared with all units on team
+displayName: Gazoo
+displayColor:#7eff00
+displayRoundedDown:true
+hidden:false
+
+[global_resource_Dead]
+#global resource, shared with all units on team
+displayName: Dead
+displayRoundedDown:true
+hidden:true
+
+[global_resource_Prisoner]
+#global resource, shared with all units on team
+displayName: Prisoner
+displayRoundedDown:true
+hidden:true
+
+[global_resource_soup]
+iconImage:ROOT:\data\images\soupIcon.png
+displayColorUseInText:false
+#global resource, shared with all units on team
+displayPos:4
+displayName: Soup
+displayColor:#cde755
+displayRoundedDown:true
+hidden:false
+
+[global_resource_BlackIron]
+iconImage:ROOT:\data\images\blackironIcon.png
+displayColorUseInText:false
+#global resource, shared with all units on team
+displayPos:4
+displayName: Black Iron
+displayColor:#ff4e00
+displayRoundedDown:true
+hidden:false
+
+[global_resource_Requisition]
+iconImage:ROOT:\data\images\requisitionIcon.png
+displayColorUseInText:false
+#global resource, shared with all units on team
+displayPos:4
+displayName: Requisition
+displayColor:#f0c600
+displayRoundedDown:true
+hidden:false
+
+[global_resource_Coins]
+iconImage:ROOT:\data\images\coinIcon.png
+displayColorUseInText:false
+#global resource, shared with all units on team
+displayPos:4
+displayName: Coins
+displayColor:#ffc938
+displayRoundedDown:true
+hidden:false
+
+[global_resource_CaveDwellers]
+iconImage:ROOT:\data\images\CaveDwellersIcon.png
+displayColorUseInText:false
+#global resource, shared with all units on team
+displayPos:1
+displayName: Dwellers
+displayColor:#7ebd57
+displayRoundedDown:true
+hidden:false
+
+[global_resource_Spirit]
+iconImage:ROOT:\data\images\spiritIcon.png
+displayColorUseInText:false
+displayPos:4
+#global resource, shared with all units on team
+displayName: Spirit
+displayColor:#00c8d5
+displayRoundedDown:true
+hidden:false
+
+[global_resource_maxSpirit]
+#global resource, shared with all units on team
+displayName: maxSpirit
+hidden:true
+
+[global_resource_xp]
+#global resource, shared with all units on team
+displayName: XP
+displayRoundedDown:true
+hidden:true
+
+[global_resource_Amber]
+iconImage:ROOT:\data\images\amberIcon.png
+displayColorUseInText:false
+displayPos:3
+#global resource, shared with all units on team
+displayName: Amber
+displayColor:#ffc944
+displayRoundedDown:true
+hidden:false
+
+[global_resource_Ruby]
+iconImage:ROOT:\data\images\rubyIcon.png
+displayColorUseInText:false
+displayPos:3
+#global resource, shared with all units on team
+displayName: Ruby
+displayColor:#ff2626
+displayRoundedDown:true
+hidden:false
+
+[global_resource_Sapphire]
+iconImage:ROOT:\data\images\sapphireIcon.png
+displayColorUseInText:false
+displayPos:3
+#global resource, shared with all units on team
+displayName: Sapphire
+displayColor:#01b3f9
+displayRoundedDown:true
+hidden:false
+
+[global_resource_Wine]
+iconImage:ROOT:\data\images\WineIcon.png
+displayColorUseInText:false
+displayPos:3
+#global resource, shared with all units on team
+displayName: Wine
+displayColor:#d7cdb4
+displayRoundedDown:true
+hidden:false
+
+#----------------------------------(localResources)---------------------------------------------
+
+[resource_localEmerald]
+displayName: Emerald
+displayRoundedDown:true
+hidden:false
+equivalentGlobalResourceForAI: Emerald
+
+[resource_localFood]
+displayName: Food
+displayRoundedDown:true
+hidden:false
+equivalentGlobalResourceForAI: Food
+
+[resource_localxp]
+displayName: XP
+
+[resource_Trophy]
+displayName: Trophy
+displayRoundedDown:true
+
+[resource_trophySize]
+displayName:trophySize
+displayRoundedDown:true
+
+[resource_trophyLevel]
+displayName:Glory rank
+displayRoundedDown:true
+
+[resource_Recruit]
+displayName: Recruit
+displayRoundedDown:true
+hidden:true
+
+[resource_Tools]
+displayName: Tools
+displayRoundedDown:true
+hidden:true
+
+[resource_LocalMana]
+displayName: Mana
+displayRoundedDown:true
+hidden:true
+
+[resource_bones]
+displayName: Bones
+displayRoundedDown:true
+hidden:true
+
+[resource_Yak]
+displayName: Yak
+displayRoundedDown:true
+hidden:false
+
+[resource_localStone]
+displayName: Stone
+displayRoundedDown:true
+hidden:false
+
+[resource_localWood]
+displayName: Wood
+displayRoundedDown:true
+hidden:false
+
+[resource_localPaint]
+displayName: Paint
+displayRoundedDown:true
+hidden:false
+
+[resource_localWine]
+displayName: Wine
+displayRoundedDown:true
+hidden:false
+
+[resource_localHangover]
+displayName: Hangover
+displayRoundedDown:true
+hidden:false
+
+[resource_raiseDeadOrc]
+displayName: Raise dead Orc
+displayRoundedDown:true
+hidden:true
+
+[resource_raiseDeadPlagueOrc]
+displayName: Raise dead Orc
+displayRoundedDown:true
+hidden:true
+
+[resource_raiseDeadHaunting]
+displayName: Raise dead Haunting
+displayRoundedDown:true
+hidden:true
+
+[resource_humanBuildingRancher]
+displayName: Rancher Tech
+displayRoundedDown:true
+hidden:true
+
+[resource_blackCladdingLayer]
+displayName: Cladding layers
+
+#----------------------------------(Corpse)---------------------------------------------
+[hiddenAction_spawnCorpse]
+autoTriggerOnEvent: destroyed
+requireConditional:if self.tags(includes='bio') and not self.hasParent()
+spawnUnits:neutralCorpse
+
+#----------------------------------(daze)---------------------------------------------
+
+[resource_Daze]
+displayName: Daze
+displayRoundedDown:true
+
+[hiddenAction_dazeMax]
+autoTrigger: if self.resource(type='Daze', greaterThan=1) and self.tags(includes='bio')
+resourceAmount: Daze
+resourceAmount_setValue:1
+
+[hiddenAction_dazedUnit]
+autoTrigger: if self.resource(type='Daze', greaterThan=0) and self.tags(includes='bio')
+addWaypoint_type:move
+addWaypoint_position_randomOffsetFromSelf: 50,50
+addWaypoint_prepend:true
+addResources: Daze=-1
+spawnEffects: CUSTOM:daze
+
+[effect_daze]
+attachedToUnit: true
+life: 150
+alpha: 1
+hOffset:2
+xOffsetRelativeRandom:2
+yOffsetRelativeRandom:2
+hSpeed: 0.05
+dirSpeed:2
+dirSpeedRandom:2
+dirOffsetRandom:360
+fadeInTime:10
+image: ROOT:\data\images\daze.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.8
+scaleTo: 0.4
+
+#----------------------------------(Wounded)---------------------------------------------
+
+[resource_Wounded]
+displayName: Wounded
+displayRoundedDown:true
+
+[hiddenAction_woundedMax]
+autoTrigger: if self.resource(type='Wounded', greaterThan=15) and self.tags(includes='infantry')
+resourceAmount: Wounded
+resourceAmount_setValue:15
+
+[hiddenAction_WoundedDamage]
+autoTrigger: if self.resource(type='Wounded', greaterThan=0) and self.tags(includes='infantry')
+addResources: hp=-${ core.maxHp * 0.05 }, Wounded=-1
+
+[hiddenAction_WoundedOn]
+autoTrigger: if self.resource(type='Wounded', greaterThan=0) and not self.tags(includes='wounded')
+setUnitStats: moveSpeed-=${movement.moveSpeed*0.3}
+temporarilyAddTags: wounded
+
+[hiddenAction_WoundedOff]
+autoTrigger: if self.resource(type='Wounded', lessThan=1) and self.tags(includes='wounded')
+setUnitStats: moveSpeed+=${movement.moveSpeed*0.3}
+temporarilyRemoveTags: wounded
+
+[effect_Wounded]
+attachedToUnit: true
+life: 150
+alpha: 2
+hOffset:2
+xOffsetRelativeRandom:2
+yOffsetRelativeRandom:2
+hSpeed: 0.1
+dirSpeed:2
+dirSpeedRandom:2
+dirOffsetRandom:360
+fadeInTime:10
+image: ROOT:\data\images\wounded.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.8
+scaleTo: 0.4
+#----------------------------------(Poison)---------------------------------------------
+
+[resource_Poison]
+displayName: Poison
+displayRoundedDown:true
+
+[hiddenAction_poisonMax]
+autoTrigger: if self.resource(type='Poison', greaterThan=15) and self.tags(includes='bio')
+resourceAmount: Poison
+resourceAmount_setValue:15
+
+[hiddenAction_poisonDamage]
+autoTrigger: if self.resource(type='Poison', greaterThan=0) and self.tags(includes='bio')
+addResources: hp=-${ core.maxHp * 0.015 }, Poison=-1
+spawnEffects: CUSTOM:poisoned
+
+[effect_poisoned]
+attachedToUnit: true
+life: 150
+alpha: 2
+hOffset:2
+xOffsetRelativeRandom:2
+yOffsetRelativeRandom:2
+hSpeed: 0.1
+dirSpeed:2
+dirSpeedRandom:2
+dirOffsetRandom:360
+fadeInTime:10
+image: ROOT:\data\images\poison.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.8
+scaleTo: 0.4
+
+#----------------------------------(empathy)---------------------------------------------
+
+[resource_Empathy]
+displayName: Empathy
+displayRoundedDown:true
+
+[hiddenAction_empathyMax]
+autoTrigger: if self.resource(type='Empathy', greaterThan=10) and self.tags(includes='bio')
+resourceAmount: Empathy
+resourceAmount_setValue:10
+
+[hiddenAction_empathyDamage]
+autoTrigger: if self.resource(type='Empathy', greaterThan=0) and self.tags(includes='bio')
+addResources: Empathy=-1
+spawnEffects: CUSTOM:empathy
+
+[hiddenAction_empathyChangeOfHeart]
+autoTrigger: if self.resource(type='Empathy', greaterThan=0) and self.tags(includes='bio') and self.hp(lessThan=${ core.maxHp * 0.4 })and not self.tags(includes='cannotConvert')
+temporarilyAddTags: changeOfHeart
+
+[hiddenAction_empathyChangeOfHeartRemoval]
+autoTrigger: if self.resource(type='Empathy', lessThan=1) and self.tags(includes='changeOfHeart')
+temporarilyRemoveTags: changeOfHeart
+
+[effect_empathy]
+attachedToUnit: true
+life: 150
+alpha: 1
+hOffset:2
+xOffsetRelativeRandom:2
+yOffsetRelativeRandom:2
+dirSpeed:-4
+dirSpeedRandom:1
+dirOffsetRandom:360
+fadeInTime:10
+image: ROOT:\data\images\empathy.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.6
+scaleTo: 0.9
+
+#----------------------------------(Fire)---------------------------------------------
+
+[resource_Fire]
+displayName: Fire
+displayRoundedDown:true
+
+[hiddenAction_fireMaxBuilding]
+autoTrigger: if self.resource(type='Fire', greaterThan=30) and not self.tags(includes='infantry') and not self.tags(includes='cavalry') and not self.tags(includes='monster')
+resourceAmount: Fire
+resourceAmount_setValue:30
+
+[hiddenAction_fireDamageBuilding]
+autoTrigger: if self.resource(type='Fire', greaterThan=0) and not self.tags(includes='infantry') and not self.tags(includes='cavalry') and not self.tags(includes='monster')
+addResources: hp=-${ core.maxHp * 0.012 }, Fire=-1
+spawnEffects: CUSTOM:fireBuilding*3
+
+[hiddenAction_fireMaxUnit]
+autoTrigger: if self.resource(type='Fire', greaterThan=10) and (self.tags(includes='infantry') or self.tags(includes='cavalry') or self.tags(includes='monster'))
+resourceAmount: Fire
+resourceAmount_setValue:10
+
+[hiddenAction_fireDamageUnit]
+autoTrigger: if self.resource(type='Fire', greaterThan=0) and (self.tags(includes='infantry') or self.tags(includes='cavalry') or self.tags(includes='monster'))
+addResources: hp=-${ core.maxHp * 0.025 }, Fire=-1
+spawnEffects: CUSTOM:fireUnit*3
+
+[effect_fireBuilding]
+attachedToUnit: true
+life: 300
+alpha: 0.9
+hOffset:2
+xOffsetAbsolute:4
+xOffsetRelativeRandom:11
+yOffsetRelativeRandom:11
+hSpeed: 0.17
+dirSpeedRandom:0.5
+dirOffset:-15
+dirOffsetRandom:15
+fadeInTime:50
+image: ROOT:\data\images\fire.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.8
+scaleTo: 0.2
+atmospheric:true
+
+[effect_fireUnit]
+attachedToUnit: true
+life: 130
+alpha: 0.9
+hOffset:2
+xOffsetRelativeRandom:5
+yOffsetRelativeRandom:5
+hSpeed: 0.21
+dirSpeedRandom:0.5
+dirOffset:-15
+dirOffsetRandom:15
+fadeInTime:40
+image: ROOT:\data\images\fire.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.7
+scaleTo: 0.1
+atmospheric:true
+
+#----------------------------------(Acid)---------------------------------------------
+
+[resource_Acid]
+displayName: Acid
+displayRoundedDown:true
+
+[hiddenAction_acidMaxBuilding]
+autoTrigger: if self.resource(type='Acid', greaterThan=5) and not self.tags(includes='infantry') and not self.tags(includes='cavalry') and not self.tags(includes='monster')
+resourceAmount: Acid
+resourceAmount_setValue:5
+
+[hiddenAction_acidDamageBuilding]
+autoTrigger: if self.resource(type='Acid', greaterThan=0) and not self.tags(includes='infantry') and not self.tags(includes='cavalry') and not self.tags(includes='monster')
+addResources: hp=-${ core.maxHp * 0.01 }, Acid=-1
+spawnEffects: CUSTOM:acidBuilding*3
+
+[hiddenAction_acidMaxUnit]
+autoTrigger: if self.resource(type='Acid', greaterThan=5) and (self.tags(includes='infantry') or self.tags(includes='cavalry') or self.tags(includes='monster'))
+resourceAmount: Acid
+resourceAmount_setValue:5
+
+[hiddenAction_acidDamageUnit]
+autoTrigger: if self.resource(type='Acid', greaterThan=0) and (self.tags(includes='infantry') or self.tags(includes='cavalry') or self.tags(includes='monster'))
+addResources: hp=-${ core.maxHp * 0.02 }, Acid=-1
+spawnEffects: CUSTOM:acidUnit*3
+
+[effect_acidBuilding]
+attachedToUnit: true
+life: 300
+alpha: 0.75
+hOffset:2
+xOffsetAbsolute:4
+xOffsetRelativeRandom:11
+yOffsetRelativeRandom:11
+hSpeed: 0.17
+dirSpeedRandom:0.5
+dirOffset:-15
+dirOffsetRandom:15
+fadeInTime:50
+image: ROOT:\data\images\fireAcid.png
+priority: high
+drawUnderUnits:false
+scaleFrom:1
+scaleTo: 0
+atmospheric:true
+
+[effect_acidUnit]
+spawnChance:0.5
+alwayStartDirAtZero:true
+attachedToUnit: true
+life: 150
+alpha: 0.75
+hOffset:1
+xOffsetRelativeRandom:4
+yOffsetRelativeRandom:4
+xSpeedRelativeRandom:0.05
+ySpeedRelativeRandom:0.05
+hSpeed: 0.1
+dirSpeedRandom:0.1
+dirOffset:25
+dirOffsetRandom:25
+fadeInTime:30
+image: ROOT:\data\images\fireAcid.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.75
+scaleTo: 0
+atmospheric:true
+
+#----------------------------------(regenEffect)---------------------------------------------
+
+[effect_hpRegen]
+alwayStartDirAtZero:true
+attachedToUnit: true
+life: 60
+alpha: 1
+hOffset:6
+hSpeed: 0.3
+image: ROOT:\data\images\regen.png
+priority: high
+drawUnderUnits:false
+scaleFrom:1.2
+scaleTo: 1.2
+
+#----------------------------------(degenEffect)---------------------------------------------
+
+[effect_hpDegen]
+alwayStartDirAtZero:true
+attachedToUnit: true
+life: 60
+alpha: 1
+hOffset:6
+hSpeed: 0.3
+image: ROOT:\data\images\degen.png
+priority: high
+drawUnderUnits:false
+scaleFrom:1.2
+scaleTo: 1.2
+
+#----------------------------------(healingBreezeRegen)---------------------------------------------
+
+
+[hiddenAction_healingBreezeRegen]
+requireConditional: if (self.tags(includes='bio') or self.tags(includes='magical')) and not self.hp(full=true)
+autoTrigger: if (numberOfUnitsInTeam(withTag='healingBreeze', withinRange=200, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='healingBreeze', withinRange=200, greaterThan=0))
+addResources: hp=${core.maxHp*0.035}
+spawnEffects:CUSTOM:hpRegen
+
+#----------------------------------(healingMistRegen)---------------------------------------------
+
+
+[hiddenAction_healingMistRegen]
+requireConditional: if (self.tags(includes='bio') or self.tags(includes='magical')) and not self.hp(full=true)
+autoTrigger: if (numberOfUnitsInTeam(withTag='healingMist', withinRange=100, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='healingMist', withinRange=100, greaterThan=0))
+addResources: hp=${core.maxHp*0.02}
+spawnEffects:CUSTOM:hpRegen
+
+#----------------------------------(heroRegen)---------------------------------------------
+
+
+[hiddenAction_heroRegen]
+requireConditional: if (self.tags(includes='bio') or self.tags(includes='magical')) and not self.hp(full=true)
+autoTrigger: if (numberOfUnitsInTeam(withTag='hero', withinRange=160, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='hero', withinRange=160, greaterThan=0))
+addResources: hp=${core.maxHp*0.0025}
+spawnEffects:CUSTOM:hpRegen
+
+#----------------------------------(restRegen)---------------------------------------------
+
+
+[hiddenAction_restRegen]
+requireConditional: if (self.tags(includes='bio') or self.tags(includes='magical')) and not self.hp(full=true)
+autoTrigger: if (numberOfUnitsInTeam(withTag='restingPlace', withinRange=200, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='restingPlace', withinRange=200, greaterThan=0))
+addResources: hp=${core.maxHp*0.015}
+spawnEffects:CUSTOM:hpRegen
+
+#----------------------------------(winter)---------------------------------------------
+
+[hiddenAction_coldBio]
+requireConditional: if not self.hasFlag(id=1) and self.tags(includes='bio') and numberOfUnitsInTeam(withinRange=100, withTag='building', lessThan=1) and numberOfUnitsInTeam(withinRange=200, withTag='restingPlace', lessThan=1) and self.numberOfUnitsInAllyNotOwnTeam(withinRange=100, withTag='building', lessThan=1) and self.numberOfUnitsInAllyNotOwnTeam(withinRange=200, withTag='restingPlace', lessThan=1) and not self.tags(includes='neutral') 
+autoTrigger: if numberOfUnitsInNeutralTeam(withTag='winter', greaterThan=0)
+addResources: hp=-${core.maxHp*0.01}
+
+[hiddenAction_coldFarm]
+requireConditional: if not self.hasFlag(id=1) and self.tags(includes='farm') and numberOfUnitsInTeam(withinRange=200, withTag='restingPlace', lessThan=1) and self.numberOfUnitsInAllyNotOwnTeam(withinRange=200, withTag='restingPlace', lessThan=1) and not self.tags(includes='neutral')
+autoTrigger: if numberOfUnitsInNeutralTeam(withTag='winter', greaterThan=0)
+addResources: hp=-${core.maxHp*0.005}
+
+[hiddenAction_coldBuilding]
+requireConditional: if not self.hasFlag(id=1) and self.tags(includes='building') and numberOfUnitsInTeam(withinRange=200, withTag='restingPlace', lessThan=1) and self.numberOfUnitsInAllyNotOwnTeam(withinRange=200, withTag='restingPlace', lessThan=1) and not self.tags(includes='neutral') and not self.tags(includes='neutralTribe')
+autoTrigger: if numberOfUnitsInNeutralTeam(withTag='winter', greaterThan=0)
+addResources: hp=-${core.maxHp*0.0005}
+spawnEffects:CUSTOM:effectColdWithering*5
+
+[effect_effectColdWithering]
+spawnChance:0.1
+attachedToUnit: true
+life: 350
+alpha: 0.4
+hOffset:1
+xOffsetRelativeRandom:15
+yOffsetRelativeRandom:15
+hSpeed: 0.05
+xSpeedRelativeRandom:0.05
+dirSpeed:0.4
+dirSpeedRandom:0.3
+dirOffsetRandom:360
+fadeInTime:50
+image: ROOT:\data\images\snowFlake.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.5
+scaleTo: 2
+
+#----------------------------------(Curse)---------------------------------------------
+
+[resource_Curse]
+displayName: Curse
+displayRoundedDown:true
+
+[hiddenAction_curseMax]
+autoTrigger: if self.resource(type='Curse', greaterThan=25) and self.tags(includes='bio')
+resourceAmount: Curse
+resourceAmount_setValue:25
+
+[hiddenAction_curseOn]
+autoTrigger: if self.resource(type='Curse', greaterThan=0) and not self.tags(includes='cursed')
+setUnitStats: moveSpeed-=${movement.moveSpeed*0.25}, shootDelayMultiplier=2, armour-=4
+temporarilyAddTags: cursed
+
+[hiddenAction_curseOff]
+autoTrigger: if self.resource(type='Curse', lessThan=1) and self.tags(includes='cursed')
+setUnitStats: moveSpeed+=${movement.moveSpeed*0.25}, shootDelayMultiplier=1, armour+=4
+temporarilyRemoveTags: cursed
+
+[hiddenAction_curseDamage]
+autoTrigger: if self.resource(type='Curse', greaterThan=0) and self.tags(includes='bio')
+addResources: Curse=-1
+spawnEffects: CUSTOM:cursed
+
+[hiddenAction_curseDamageUndead]
+autoTrigger: if self.resource(type='Curse', greaterThan=0) and self.tags(includes='undead')
+setUnitStats: maxHp-=${ core.maxHp * 0.025 }, hp-=${ core.maxHp * 0.025 }
+addResources: Curse=-1
+spawnEffects: CUSTOM:cursed
+
+[effect_cursed]
+attachedToUnit: true
+life: 60
+alpha: 1.5
+hOffset:2
+xOffsetRelativeRandom:2
+yOffsetRelativeRandom:2
+xSpeedRelativeRandom:0.25
+ySpeedRelativeRandom:0.25
+hSpeed: 0.1
+dirSpeedRandom:1
+alwayStartDirAtZero:true
+dirOffset:-90
+fadeInTime:10
+image: ROOT:\data\images\curse.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.7
+scaleTo: 0.4
+
+#----------------------------------(Freezing)---------------------------------------------
+
+[resource_Freezing]
+displayName: Freezing
+displayRoundedDown:true
+
+[hiddenAction_freezingMax]
+autoTrigger: if self.resource(type='Freezing', greaterThan=10) and self.tags(includes='bio')
+resourceAmount: Freezing
+resourceAmount_setValue:10
+
+[hiddenAction_freezingOn]
+autoTrigger: if self.resource(type='Freezing', greaterThan=0) and not self.tags(includes='freezing')
+setUnitStats: moveSpeed-=${movement.moveSpeed*0.5}, armour-=2
+temporarilyAddTags: freezing
+
+[hiddenAction_freezingOff]
+autoTrigger: if self.resource(type='Freezing', lessThan=1) and self.tags(includes='freezing')
+setUnitStats: moveSpeed+=${movement.moveSpeed*0.5}, armour+=2
+temporarilyRemoveTags: freezing
+
+[hiddenAction_freezingDamage]
+autoTrigger: if self.resource(type='Freezing', greaterThan=0) and self.tags(includes='bio')
+addResources: Freezing=-1, hp=-2
+spawnEffects:CUSTOM:effectFreezing*1
+
+[effect_effectFreezing]
+attachedToUnit: true
+life: 30
+alpha: 1
+hOffset:1
+xOffsetRelativeRandom:3
+yOffsetRelativeRandom:3
+hSpeed: 0.2
+xSpeedRelativeRandom:0.1
+ySpeedRelativeRandom:0.1
+dirSpeed:0.4
+dirSpeedRandom:0.3
+dirOffsetRandom:360
+fadeInTime:10
+image: ROOT:\data\images\snowFlake.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.6
+scaleTo: 1
+
+#----------------------------------(Plague)---------------------------------------------
+
+[resource_Plague]
+displayName: Plague
+displayRoundedDown:true
+
+[hiddenAction_plagueMax]
+autoTrigger: if self.resource(type='Plague', greaterThan=100) and self.tags(includes='bio')
+resourceAmount: Plague
+resourceAmount_setValue:100
+
+[hiddenAction_plagueImmunity]
+autoTrigger: if self.resource(type='Plague', lessThan=25)and self.resource(type='Plague', greaterThan=0) and not self.tags(includes='plagueMutant')
+addResources: Plague=-1
+spawnEffects: CUSTOM:recovery*3
+
+[hiddenAction_plagueGrowing]
+autoTrigger: if self.resource(type='Plague', greaterThan=24) and self.resource(type='Plague', lessThan=100) and self.tags(includes='bio') and not self.tags(includes='plagueMutant')
+addResources: Plague=1
+spawnEffects: CUSTOM:sick
+
+[hiddenAction_plagueGrowingMutant]
+autoTrigger: if self.resource(type='Plague', greaterThan=0) and self.resource(type='Plague', lessThan=100) and self.tags(includes='plagueMutant')
+addResources: Plague=1
+spawnEffects: CUSTOM:sick
+
+[action_plagueSickMildInfo]
+iconImage:ROOT:\data\images\trophy.png
+isVisible:if self.resource(type='Plague', greaterThan=0) and self.resource(type='Plague', lessThan=25) and not self.tags(includes='plagueMutant')
+pos:0
+price:Plague=1
+text: Mild Infection
+description:-This unit has a mild flargpox plague infection\n-Will be cured if not exposed to plague
+displayType: infoOnly
+buildSpeed: 1
+isActive:false
+displayRemainingStockpile: true
+
+[action_plagueSickSevereInfo]
+iconImage:ROOT:\data\images\trophy.png
+isVisible:if self.resource(type='Plague', greaterThan=24) and self.resource(type='Plague', lessThan=100) and not self.tags(includes='plagueMutant')
+pos:0
+price:Plague=1
+text: Severe Infection
+description:-This unit is severely infected with flargpox plague\n-Will fall sick and cannot be cured
+displayType: infoOnly
+buildSpeed: 1
+isActive:false
+displayRemainingStockpile: true
+
+[action_plagueSickInfo]
+iconImage:ROOT:\data\images\trophy.png
+isVisible:if self.resource(type='Plague', greaterThan=99) and not self.tags(includes='plagueMutant')
+isGuiBlinking:if self.resource(type='Plague', greaterThan=99) and not self.tags(includes='plagueMutant')
+pos:0
+price:Plague=1
+text: Sick
+description:-This unit has fallen sick to the flargpox plague\n-Will take damage over time and release infectious larvae on death
+displayType: infoOnly
+buildSpeed: 1
+isActive:false
+displayRemainingStockpile: true
+
+
+[hiddenAction_infectuousTag]
+autoTrigger: if self.resource(type='Plague', greaterThan=99) and self.tags(includes='bio') and not  self.tags(includes='infectuous')
+temporarilyAddTags: infectuous
+
+#[hiddenAction_infectuousInfection]
+#autoTrigger: if numberOfUnitsInAllTeams(withTag='infectuous', withinRange=25, greaterThan=0) and self.tags(includes='bio') and self.resource(type='Plague', lessThan=1) and not self.hasParent()
+#addResources: Plague=1
+
+[hiddenAction_plagueDamageEffect]
+autoTrigger: if self.resource(type='Plague', greaterThan=99) and self.tags(includes='bio')
+spawnEffects: CUSTOM:plagued*3
+
+[hiddenAction_plagueDamage]
+autoTrigger: if self.resource(type='Plague', greaterThan=99) and self.tags(includes='bio') and not self.tags(includes='plagueMutant') and not self.hp(lessThan=${ core.maxHp * 0.5})
+addResources: hp=-${ core.maxHp * 0.01 }
+
+[hiddenAction_plagueDamageTech]
+requireConditional: if not self.hp(greaterThan=${ core.maxHp * 0.5}) and numberOfUnitsInAllTeams(withTag='plagueTech', greaterThan=0)
+autoTrigger: if self.resource(type='Plague', greaterThan=99) and self.tags(includes='bio') and not self.tags(includes='plagueMutant') and not self.hp(lessThan=${ core.maxHp * 0.25})
+addResources: hp=-${ core.maxHp * 0.01 }
+
+[hiddenAction_spawnPlagueLarva]
+autoTriggerOnEvent: destroyed
+requireConditional: if self.resource(type='Plague', greaterThan=99) and self.tags(includes='plagueMutant')
+spawnUnits:highpeakPlagueOrcLarva
+
+[hiddenAction_spawnPlagueLarvaHostile]
+autoTriggerOnEvent: destroyed
+requireConditional: if self.resource(type='Plague', greaterThan=99) and not self.tags(includes='plagueMutant')
+spawnUnits:highpeakPlagueOrcLarvaMutant
+
+[effect_sick]
+attachedToUnit: true
+life: 90
+alpha: 0.75
+hOffset:2
+xOffsetRelativeRandom:2
+yOffsetRelativeRandom:2
+xSpeedRelativeRandom:0.015
+ySpeedRelativeRandom:0.015
+hSpeed: 0.075
+dirSpeedRandom:1
+alwayStartDirAtZero:true
+dirOffsetRandom:360
+fadeInTime:25
+image: ROOT:\data\images\sick.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.6
+scaleTo: 1
+
+[effect_plagued]
+attachedToUnit: true
+life: 60
+alpha: 0.75
+hOffset:0
+xOffsetRelativeRandom:2
+yOffsetRelativeRandom:2
+xSpeedRelativeRandom:0.2
+ySpeedRelativeRandom:0.2
+hSpeed: 0
+dirSpeed:3
+dirSpeedRandom:1
+dirOffsetRandom:360
+fadeInTime:10
+image: ROOT:\data\images\plague.png
+priority: high
+drawUnderUnits:true
+scaleFrom:0.5
+scaleTo: 1.1
+
+
+[effect_recovery]
+attachedToUnit: true
+life: 60
+hOffset:0
+xOffsetRelativeRandom:2
+yOffsetRelativeRandom:2
+xSpeedRelativeRandom:0.2
+ySpeedRelativeRandom:0.2
+hSpeed: 0
+dirSpeed:3
+dirSpeedRandom:1
+dirOffsetRandom:360
+fadeInTime:10
+image: ROOT:\data\images\emeraldDrain.png
+priority: high
+drawUnderUnits:true
+scaleFrom:0.15
+scaleTo: 0.16
+
+#----------------------------------(Acorn)---------------------------------------------
+
+[resource_acorn]
+displayName: Acorn
+displayRoundedDown:true
+
+[resource_maxAcorn]
+displayName: Growth
+displayRoundedDown:true
+
+[hiddenAction_acornGrow]
+autoTrigger: if self.resource(type='acorn', greaterThan=0) and self.resource(type='maxAcorn', lessThan=5)
+setUnitStats: maxHp+=5, hp+=5
+addResources: acorn=-1
+spawnEffects: CUSTOM:hpRegen
+#----------------------------------(drunken)---------------------------------------------
+
+[resource_localWine]
+displayName: Wine
+displayRoundedDown:true
+
+[hiddenAction_drunkenDamage]
+autoTrigger: if self.resource(type='localWine', greaterThan=0)
+addResources: Hangover=1, localWine=-1
+spawnEffects: CUSTOM:drunken*3
+
+[effect_drunken]
+attachedToUnit: true
+life: 50
+alpha: 1
+xSpeedRelativeRandom:0.25
+ySpeedRelativeRandom:0.25
+fadeInTime:10
+image: ROOT:\data\images\auraWine.png
+priority: high
+drawUnderUnits:true
+scaleFrom:0.7
+scaleTo: 0
+
+
+#----------------------------------(Hangover)---------------------------------------------
+
+[resource_Hangover]
+displayName: Hangover
+displayRoundedDown:true
+
+[hiddenAction_HangoverDamage]
+autoTrigger: if self.resource(type='Hangover', greaterThan=0) and self.resource(type='localWine', lessThan=1)
+addResources: Hangover=-1
+spawnEffects: CUSTOM:Hangover
+
+[hiddenAction_HangoverOn]
+autoTrigger: if self.resource(type='Hangover', greaterThan=0) and self.resource(type='localWine', lessThan=1) and not self.tags(includes='Hangovered')
+setUnitStats: moveSpeed-=${movement.moveSpeed*0.1}, maxHp-=${ core.maxHp * 0.1 }
+temporarilyAddTags: Hangovered, canBurn
+
+[hiddenAction_HangoverOff]
+autoTrigger: if self.resource(type='Hangover', lessThan=1) and self.tags(includes='Hangovered')
+setUnitStats: moveSpeed+=${movement.moveSpeed*0.1}, maxHp+=${ core.maxHp * 0.1 }, hp+=${ core.maxHp * 0.1 }
+temporarilyRemoveTags: Hangovered, canBurn
+
+[hiddenAction_HangoverOffLonguiTech]
+autoTrigger: if self.resource(type='Hangover', greaterThan=0) and self.resource(type='localWine', lessThan=1) and self.globalTeamTags(includes='longuiHangoverTech')
+setResourcesWithLogic: Hangover=0
+temporarilyRemoveTags: Hangovered, canBurn
+
+[effect_Hangover]
+attachedToUnit: true
+life: 150
+alpha: 2
+hOffset:2
+xOffsetRelativeRandom:2
+yOffsetRelativeRandom:2
+hSpeed: 0.1
+dirSpeed:2
+dirSpeedRandom:2
+dirOffsetRandom:360
+fadeInTime:10
+image: ROOT:\data\images\wine.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.8
+scaleTo: 0.4
+
+#----------------------------------(TrophyValue)------------------------------------------
+
+[hiddenAction_trophyValue]
+requireConditional:if self.tags(includes='bio') or self.tags(includes='magical') or self.tags(includes='machine') or self.tags(includes='undead') or self.tags(includes='boneConstruct') or self.tags(includes='monster') and not self.tags(includes='building')
+autoTriggerOnEvent: destroyed
+sendMessageTo:lastDamagedBy
+sendMessageWithTags:trophy
+sendMessageWithData:trophyValue=${core.maxHp}* 0.30
+
+[resource_trophyValue]
+displayName:trophyValue
+displayRoundedDown:true
+
+[resource_trophySize]
+displayName:trophySize
+displayRoundedDown:true
+
+#----------------------------------(Feeble)------------------------------------------
+
+[resource_feeble]
+displayName:feeble
+displayRoundedDown:true
+
+[hiddenAction_feebleUnstoppable]
+autoTrigger: if self.resource(type='feeble', greaterThan=0) and self.tags(includes='Unstoppable')
+setResourcesWithLogic: feeble=0
+
+[hiddenAction_feebleSlow]
+autoTrigger: if self.resource(type='feeble', greaterThan=0)
+addResources: feeble=-1
+spawnEffects: CUSTOM:feeble
+
+[hiddenAction_feebleMax]
+autoTrigger: if self.resource(type='feeble', greaterThan=7)
+resourceAmount: feeble
+resourceAmount_setValue:7
+
+[hiddenAction_feebleOn]
+autoTrigger: if self.resource(type='feeble', greaterThan=0) and not self.tags(includes='feebled') and not self.tags(includes='Unstoppable')
+setUnitStats: moveSpeed-=${movement.moveSpeed*0.2}
+temporarilyAddTags: feebled
+
+[hiddenAction_feebleOff]
+autoTrigger: if self.resource(type='feeble', equalTo=0) and self.tags(includes='feebled')
+setUnitStats: moveSpeed+=${movement.moveSpeed*0.2}
+temporarilyRemoveTags: feebled
+
+[hiddenAction_feeble2On]
+autoTrigger: if self.resource(type='feeble', greaterThan=4) and not self.tags(includes='feebled2')
+setUnitStats: moveSpeed-=${movement.moveSpeed*0.3}
+temporarilyAddTags: feebled2
+
+[hiddenAction_feeble2Off]
+autoTrigger: if self.resource(type='feeble', lessThan=5) and self.tags(includes='feebled2')
+setUnitStats: moveSpeed+=${movement.moveSpeed*0.3}
+temporarilyRemoveTags: feebled2
+
+[effect_feeble]
+color:red
+attachedToUnit: true
+life: 40
+alpha: 2
+hSpeed: 0.2
+hOffset: 5
+fadeInTime:10
+image: ROOT:\data\images\vision.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.1
+scaleTo: 0
+
+#----------------------------------(Frenzy)------------------------------------------
+
+[resource_frenzy]
+displayName:frenzy
+displayRoundedDown:true
+
+[hiddenAction_frenzySlow]
+autoTrigger: if self.resource(type='frenzy', greaterThan=0)
+addResources: frenzy=-1
+spawnEffects: CUSTOM:frenzy
+
+[hiddenAction_frenzyMax]
+autoTrigger: if self.resource(type='frenzy', greaterThan=5)
+resourceAmount: frenzy
+resourceAmount_setValue:5
+
+[hiddenAction_frenzyOn]
+autoTrigger: if self.resource(type='frenzy', greaterThan=0) and not self.tags(includes='frenzy')
+setUnitStats: shootDelayMultiplier=0.8
+temporarilyAddTags: frenzy
+
+[hiddenAction_frenzyOff]
+autoTrigger: if self.resource(type='frenzy', equalTo=0) and self.tags(includes='frenzy')
+setUnitStats: shootDelayMultiplier=1
+temporarilyRemoveTags: frenzy
+
+[effect_frenzy]
+attachedToUnit: true
+life: 60
+alpha: 1.5
+hOffset:2
+xOffsetRelativeRandom:2
+yOffsetRelativeRandom:2
+xSpeedRelativeRandom:0.25
+ySpeedRelativeRandom:0.25
+hSpeed: 0.1
+dirSpeedRandom:1
+alwayStartDirAtZero:true
+dirOffset:-90
+fadeInTime:10
+image: ROOT:\data\images\feast.png
+priority: high
+drawUnderUnits:false
+scaleFrom:0.7
+scaleTo: 0.4
+
+#----------------------------------(Charge)------------------------------------------
+
+[resource_charge]
+displayName:charge
+displayRoundedDown:true
+
+[hiddenAction_chargeSlow]
+autoTrigger: if self.resource(type='charge', greaterThan=0)
+addResources: charge=-1
+
+[hiddenAction_chargeMax]
+autoTrigger: if self.resource(type='charge', greaterThan=3)
+resourceAmount: charge
+resourceAmount_setValue:3
+
+[hiddenAction_chargeOn]
+autoTrigger: if self.resource(type='charge', greaterThan=0) and not self.tags(includes='charging')
+setUnitStats: moveSpeed+=${movement.moveSpeed*0.5}
+temporarilyAddTags: charging
+
+[hiddenAction_chargeOff]
+autoTrigger: if self.resource(type='charge', equalTo=0) and self.tags(includes='charging')
+setUnitStats: moveSpeed-=${movement.moveSpeed*0.5}
+temporarilyRemoveTags: charging
+
+#----------------------------------(Decay)------------------------------------------
+
+[resource_decay]
+displayName:decay
+displayRoundedDown:true
+
+[hiddenAction_decaySlow]
+autoTrigger: if self.resource(type='decay', greaterThan=0)
+addResources: decay=-1
+
+[hiddenAction_decayMax]
+autoTrigger: if self.resource(type='decay', greaterThan=3)
+resourceAmount: decay
+resourceAmount_setValue:3
+
+[hiddenAction_decayOn]
+autoTrigger: if self.resource(type='decay', greaterThan=0) and not self.tags(includes='decay')
+setUnitStats: armour-=3
+temporarilyAddTags: decay
+
+[hiddenAction_decayOff]
+autoTrigger: if self.resource(type='decay', equalTo=0) and self.tags(includes='decay')
+setUnitStats: armour+=3
+temporarilyRemoveTags: decay
+
+#----------------------------------(Necrosis)------------------------------------------
+
+[resource_necrosis]
+displayName:necrosis
+displayRoundedDown:true
+
+[hiddenAction_necrosisSlow]
+autoTrigger: if self.resource(type='necrosis', greaterThan=0)
+addResources: necrosis=-1
+
+[hiddenAction_necrosisMax]
+autoTrigger: if self.resource(type='necrosis', greaterThan=10)
+resourceAmount: necrosis
+resourceAmount_setValue:10
+
+[hiddenAction_spawnNecrosisRupture]
+autoTriggerOnEvent: destroyed
+requireConditional: if self.resource(type='necrosis', greaterThan=0)
+spawnUnits:highpeakPlagueOrcRupture

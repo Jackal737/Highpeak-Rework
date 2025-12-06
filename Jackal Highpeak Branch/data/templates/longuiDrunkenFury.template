@@ -1,0 +1,35 @@
+
+[action_longuiDrunkenFury]
+isLocked: if self.tags(includes='isDrunk')
+iconImage:ROOT:\data\images\platedPlus.png
+displayType:action
+whenBuilding_cannotMove:true
+ai_isHighPriority: if self.numberOfUnitsInEnemyTeam(withinRange=200, greaterThan=5, withTag='infantry')
+price: Wine=15
+setUnitStats: shootDelayMultiplier-=0.4, moveSpeed+=0.1
+addResources: localWine=15
+temporarilyAddTags:DrunkenFury
+spawnEffects: CUSTOM:gettingDrunk
+text: Drunken Fury
+description: -Consumes wine to temporarily increase move and attack speed\n -Once the effect dissipates the unit will become exhausted
+buildSpeed: 0s
+addActionCooldownTime: 30s
+pos: 1
+
+[hiddenAction_longuiDrunkenFuryOff]
+autoTrigger: if self.resource(type='localWine', lessThan=1) and self.tags(includes='DrunkenFury')
+temporarilyRemoveTags:DrunkenFury
+setUnitStats: shootDelayMultiplier+=0.4, moveSpeed-=0.1
+
+[effect_gettingDrunk]
+alsoPlaySound:ROOT:\data\soundFx\flameThrower.ogg
+fadeInTime:10
+alwayStartDirAtZero:true
+attachedToUnit: true
+life: 30
+alpha: 1
+image: ROOT:\data\images\auraWine.png
+priority: high
+drawUnderUnits:true
+scaleFrom:0.5
+scaleTo: 1.5

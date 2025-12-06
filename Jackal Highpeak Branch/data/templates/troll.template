@@ -1,0 +1,158 @@
+[core]
+shieldDisplayOnlyDeflection:true
+shieldRegen:0
+
+
+################################### Shield Rune ###################################
+
+[action_shieldRune]
+isVisible: if (numberOfUnitsInTeam(withTag='paint', withinRange=125, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='paint', withinRange=125, greaterThan=0)) and not (self.tags(includes='rune'))
+isLocked: if self.tags(includes='rune')
+iconImage:ROOT:\data\images\shieldRuneIcon.png
+displayType:action
+whenBuilding_cannotMove:true
+ai_isDisabled:true
+price: gazul=150
+setUnitStats: maxShield=${ core.maxHp * 0.3 }, shield=${ core.maxHp * 0.3 }, shieldRegen = 0.01
+temporarilyAddTags:shieldRune, rune
+spawnEffects: CUSTOM:upgrade
+text: Rune of Immobility
+description: -Paint a magical rune, granting a shield
+buildSpeed: 7.5s
+pos: 2
+
+[arm_10]
+x: 0
+y: 0
+image_end: ROOT:\data\images\shieldRune.png
+drawUnderAllUnits: true
+hidden:if not self.tags(includes='shieldRune')
+spinRate:0.15
+image_end_teamColors:true
+
+
+
+################################### Damage Rune ###################################
+
+[action_damageRune]
+isVisible: if (numberOfUnitsInTeam(withTag='paint', withinRange=125, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='paint', withinRange=125, greaterThan=0)) and not (self.tags(includes='rune'))
+isLocked: if self.tags(includes='rune')
+iconImage:ROOT:\data\images\damageRuneIcon.png
+displayType:action
+whenBuilding_cannotMove:true
+ai_isDisabled:true
+price: gazul=150
+setUnitStats: shootDamageMultiplier = 1.2
+temporarilyAddTags:damageRune, rune
+spawnEffects: CUSTOM:upgrade
+text: Rune of Force
+description: -Paint a magical rune, increasing damage
+buildSpeed: 7.5s
+pos: 2
+
+[arm_11]
+x: 0
+y: 0
+image_end: ROOT:\data\images\damageRune.png
+drawUnderAllUnits: true
+hidden:if not self.tags(includes='damageRune')
+spinRate:0.3
+image_end_teamColors:true
+
+
+################################### Speed Rune ###################################
+
+
+[action_speedRune]
+isVisible: if (numberOfUnitsInTeam(withTag='paint', withinRange=125, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='paint', withinRange=125, greaterThan=0)) and not (self.tags(includes='rune'))
+isLocked: if self.tags(includes='rune')
+iconImage:ROOT:\data\images\speedRuneIcon.png
+displayType:action
+whenBuilding_cannotMove:true
+ai_isDisabled:true
+price: gazul=150
+setUnitStats: moveSpeed += 0.1, maxTurnSpeed += 1
+temporarilyAddTags:speedRune, rune
+spawnEffects: CUSTOM:upgrade
+text: Rune of Momentum
+description: -Paint a magical rune, increasing movement and turning speed
+buildSpeed: 7.5s
+pos: 2
+
+[arm_12]
+x: 0
+y: 0
+image_end: ROOT:\data\images\speedRune.png
+drawUnderAllUnits: true
+hidden:if not self.tags(includes='speedRune')
+spinRate:0.4
+image_end_teamColors:true
+
+
+################################### Remove Runes ###################################
+
+
+[action_removeRunes]
+isVisible: if (self.tags(includes='rune'))
+temporarilyRemoveTags:damageRune, speedRune, shieldRune, rune
+resetUnitStats: true
+addResources: gazul=-50
+iconImage:ROOT:\data\images\deleteRuneIcon.png
+text: Remove Runes
+whenBuilding_cannotMove:true
+spawnEffects: CUSTOM:upgrade
+description: -Erase painted runes
+buildSpeed: 7.5s
+pos: 1 
+
+
+
+
+[effect_upgrade]
+alsoPlaySound:ROOT:\data\soundFx\flameThrower.ogg
+fadeInTime:10
+alwayStartDirAtZero:true
+attachedToUnit: true
+life: 30
+alpha: 1
+image: ROOT:\data\images\upgrade.png
+priority: high
+drawUnderUnits:true
+scaleFrom:0.5
+scaleTo: 1
+
+#----------------------------------(weAreLikeStone)---------------------------------------------
+[hiddenAction_weAreLikeStoneAuraOn]
+requireConditional: if (self.tags(includes='troll') and not self.tags(includes='weAreLikeStoneAuraOn'))
+autoTrigger: if (numberOfUnitsInTeam(withTag='weAreLikeStoneAura', withinRange=200, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='weAreLikeStoneAura', withinRange=200, greaterThan=0))
+setUnitStats: armour+=5
+temporarilyAddTags: weAreLikeStoneAuraOn
+
+[hiddenAction_weAreLikeStoneAuraOff]
+requireConditional: if self.tags(includes='weAreLikeStoneAuraOn')
+autoTrigger: if (numberOfUnitsInTeam(withTag='weAreLikeStoneAura', withinRange=200, lessThan=1) and self.numberOfUnitsInAllyNotOwnTeam(withTag='weAreLikeStoneAura', withinRange=200, lessThan=1))
+setUnitStats: armour-=5
+temporarilyRemoveTags: weAreLikeStoneAuraOn
+
+[decal_weAreLikeStone]
+isVisible:if self.tags(includes='weAreLikeStoneAuraOn')
+imageStack:ROOT:data\images\earthIcon.png
+imageScale: 0.65
+hOffset:15
+stack_hOffset:0
+onlyTeam:own
+alwaysStartDirAtZero: true
+xOffsetRelative: 0
+yOffsetRelative: 0
+basePosition: self
+layer: beforeUI
+alpha: 0.85
+onlyWhileAlive: true
+onlyWithZoomLevelOrMore: 0.5
+
+#----------------------------------(faeFriend)---------------------------------------------
+
+[hiddenAction_faeFriend]
+requireConditional: if (self.tags(includes='troll') and  self.numberOfUnitsInAllyNotOwnTeam(withTag='factionFae', greaterThan=0))
+autoTriggerOnEvent: created
+spawnUnits:highpeakFaeArcher_1_free

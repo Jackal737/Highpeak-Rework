@@ -1,0 +1,110 @@
+[core]
+
+canReclaimResources: true
+nanoRangeForReclaim:8
+nanoRangeForReclaimIsMelee:true
+canReclaimResourcesNextSearchRange:300
+canReclaimResourcesOnlyWithTags:resource
+canReclaimUnitsOnlyWithTags:building
+
+[effect_mine]
+
+alwayStartDirAtZero:true
+attachedToUnit: true
+life: 100
+alpha: 0
+#physics: true
+hSpeed: 0.2
+priority: high
+drawUnderUnits:false
+showInFog:false
+alsoPlaySound:ROOT:\data\soundFx\emeraldHit.ogg:0.06, ROOT:\data\soundFx\pickaxeHit.ogg:0.06, ROOT:\data\soundFx\emeraldHit2.ogg:0.06, ROOT:\data\soundFx\pickaxeHit2.ogg:0.06
+
+
+[graphics]
+reclaimEffect:NONE
+
+
+reclaimEffect: CUSTOM:mine
+reclaimEffectRate:50
+
+[action_moveToUnload]
+isVisible:if self.hasResources(localFood=10)
+text: Unload
+displayType:action
+pos:0
+buildSpeed:0
+
+autoTrigger: if (self.hasActiveWaypoint(type='reclaim') and self.hasResources(localFood=10)) or (self.hasActiveWaypoint(type='reclaim') and self.hasResources(localEmerald=10))
+addWaypoint_type: touchTarget
+addWaypoint_prepend: true
+addWaypoint_target_nearestUnit_tagged: dropoff
+addWaypoint_target_nearestUnit_team: own
+addWaypoint_triggerActionIfFailed: findFailed
+
+[hiddenAction_findFailed]
+clearActiveWaypoint: true
+
+[hiddenAction_unload]
+autoTriggerOnEvent: touchTargetSuccess
+alsoTriggerAction: unloadFood, unloadEmerald
+
+[hiddenAction_unloadFood]
+requireConditional:if self.hasResources(localFood=10)
+addResources: localFood=-10
+addResourcesScaledByAIHandicaps: Food=10
+spawnEffects:CUSTOM:unloadFood
+
+[hiddenAction_unloadEmerald]
+requireConditional:if self.hasResources(localEmerald=10)
+addResources: localEmerald=-10
+addResourcesScaledByAIHandicaps: Emerald=10
+spawnEffects:CUSTOM:unloadEmerald
+
+[effect_unloadFood]
+alwayStartDirAtZero:true
+attachedToUnit: false
+life: 100
+alpha: 1
+hOffset:16
+hSpeed: 0.3
+image: ROOT:\data\images\food10.png
+priority: high
+drawUnderUnits:false
+scaleFrom:1.2
+scaleTo: 1.2
+
+[effect_unloadEmerald]
+alwayStartDirAtZero:true
+attachedToUnit: false
+life: 100
+alpha: 1
+hOffset:16
+hSpeed: 0.3
+image: ROOT:\data\images\emerald10.png
+priority: high
+drawUnderUnits:false
+scaleFrom:1.2
+scaleTo: 1.2
+
+[arm_12]
+hidden:if not self.hasResources(localEmerald=10) and not self.hasResources(localFood=10)
+x: -3.5
+y: 1.5
+drawOverBody:true
+
+image_end: ROOT:\data\images\bag.png
+
+[animation_harvest]
+onActions : reclaim
+
+body_0s: {frame:2}
+body_0.1s: {frame:2}
+body_0.5s: {frame:4} 
+body_0.8s: {frame:4}
+
+[ai]
+useAsBuilder:true
+useAsHarvester:true
+whenUsingAsHarvester_recommendedInEachBase: 10
+onlyUseAsHarvester_ifBaseHasUnitTagged: dropoff

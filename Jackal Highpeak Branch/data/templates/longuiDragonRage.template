@@ -1,0 +1,35 @@
+
+[action_longuiDragonRage]
+isLocked: if self.tags(includes='isDrunk')
+iconImage:ROOT:\data\images\meleePlus.png
+displayType:action
+whenBuilding_cannotMove:true
+ai_isDisabled:true
+price: Wine=25
+setUnitStats:  moveSpeed+=0.5, shootDelayMultiplier-=0.1
+addResources: localWine=15
+temporarilyAddTags:DragonRage
+spawnEffects: CUSTOM:gettingDrunk
+text: Dragon rage
+description: -Consumes wine to temporarily increase attack and move speed\n -Once the effect dissipates the unit will remain vulnerable for a set duration
+buildSpeed: 0s
+addActionCooldownTime: 30s
+pos: 1
+
+[hiddenAction_longuiDragonRageOff]
+autoTrigger: if self.resource(type='localWine', lessThan=1) and self.tags(includes='DragonRage')
+temporarilyRemoveTags:DragonRage
+setUnitStats: moveSpeed-=0.5, shootDelayMultiplier+=0.1
+
+[effect_gettingDrunk]
+alsoPlaySound:ROOT:\data\soundFx\trogRoar.ogg:0.1
+fadeInTime:10
+alwayStartDirAtZero:true
+attachedToUnit: true
+life: 30
+alpha: 1
+image: ROOT:\data\images\auraWine.png
+priority: high
+drawUnderUnits:true
+scaleFrom:0.75
+scaleTo: 2

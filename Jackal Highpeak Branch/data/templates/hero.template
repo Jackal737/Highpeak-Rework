@@ -1,0 +1,177 @@
+#-----------------------------------------(base)-------------------------------------------------
+
+[action_countXP]
+addResources: xp=1
+price:  xp=1
+text: XP: 
+displayType: infoOnly
+buildSpeed: 0s
+pos: 0.1
+displayRemainingStockpile: true
+isActive:false
+
+[action_heroAura]
+iconImage:ROOT:\data\images\healingBreeze.png
+displayType:action
+pos:1
+text: Inspiring presence
+description: Passive\n -Increase nearby ally units hp regeneration
+buildSpeed: 0s
+isVisible: true
+
+[effect_death]
+life: 0
+spawnChance:0.40
+alpha:0
+alsoPlaySound:ROOT:\data\soundFx\death.ogg:0.05, ROOT:\data\soundFx\death2.ogg:0.05, ROOT:\data\soundFx\death3.ogg:0.05, ROOT:\data\soundFx\death4.ogg:0.1
+
+[hiddenAction_birth]
+autoTriggerOnEvent:completeAndActive
+spawnEffects:CUSTOM:birth
+
+[effect_birth]
+fadeInTime:10
+attachedToUnit: true
+life: 60
+alpha: 2
+scaleFrom:1.4
+scaleTo: 0.2
+hSpeed: 0.4
+image: ROOT:\data\images\birth.png
+priority: high
+drawUnderUnits:false
+
+
+#-----------------------------------------(lvl)-------------------------------------------------
+
+[action_level1]
+isActive:false
+isVisible: if not self.tags(includes='lvl1')
+autoTrigger: if self.resource(type='xp', greaterThan=100) and not self.tags(includes='lvl1')
+spawnEffects:CUSTOM:birth
+text: Level: (1)
+description: 100 XP to next level
+displayType: infoOnly
+pos: 0
+buildSpeed: 0s
+temporarilyAddTags:lvl1
+setUnitStats: maxHp+=25, hp+=25, shootDamageMultiplier=1.1
+
+[action_level2]
+isActive:false
+isVisible: if self.tags(includes='lvl1') and not self.tags(includes='lvl2')
+autoTrigger: if self.resource(type='xp', greaterThan=200) and not self.tags(includes='lvl2')
+spawnEffects:CUSTOM:birth
+text: Level: (2)
+description: 200 XP to next level
+displayType: infoOnly
+pos: 0
+buildSpeed: 0s
+temporarilyAddTags:lvl2
+setUnitStats: maxHp+=25, hp+=25, shootDamageMultiplier=1.2
+
+[action_level3]
+isActive:false
+isVisible: if self.tags(includes='lvl2') and not self.tags(includes='lvl3')
+autoTrigger: if self.resource(type='xp', greaterThan=300) and not self.tags(includes='lvl3')
+spawnEffects:CUSTOM:birth
+text: Level: (3)
+description: 300 XP to next level
+displayType: infoOnly
+pos: 0
+buildSpeed: 0s
+temporarilyAddTags:lvl3
+setUnitStats: maxHp+=25, hp+=25, shootDamageMultiplier=1.3
+
+[action_level4]
+isActive:false
+isVisible: if self.tags(includes='lvl3') and not self.tags(includes='lvl4')
+autoTrigger: if self.resource(type='xp', greaterThan=400) and not self.tags(includes='lvl4')
+spawnEffects:CUSTOM:birth
+text: Level: (4)
+description: 400 XP to next level
+displayType: infoOnly
+pos: 0
+buildSpeed: 0s
+temporarilyAddTags:lvl4
+setUnitStats: maxHp+=25, hp+=25, shootDamageMultiplier=1.4
+
+[action_level5]
+isActive:false
+isVisible: if self.tags(includes='lvl4') and  not self.tags(includes='lvl5')
+autoTrigger: if self.resource(type='xp', greaterThan=500) and not self.tags(includes='lvl5')
+spawnEffects:CUSTOM:birth
+text: Level: (5)
+description: 500 XP to next level
+displayType: infoOnly
+pos: 0
+buildSpeed: 0s
+temporarilyAddTags:lvl5
+setUnitStats: maxHp+=25, hp+=25, shootDamageMultiplier=1.5
+
+[action_level6]
+isActive:false
+isVisible: if self.tags(includes='lvl5') and  not self.tags(includes='lvl6')
+autoTrigger: if self.resource(type='xp', greaterThan=600) and not self.tags(includes='lvl6')
+spawnEffects:CUSTOM:birth
+text: Level: (6)
+description: 600 XP to next level
+displayType: infoOnly
+pos: 0
+buildSpeed: 0s
+temporarilyAddTags:lvl6
+setUnitStats: maxHp+=25, hp+=25, shootDamageMultiplier=1.6
+
+[action_level7]
+isActive:false
+isVisible: if self.tags(includes='lvl6') and  not self.tags(includes='lvl7')
+autoTrigger: if self.resource(type='xp', greaterThan=700) and not self.tags(includes='lvl7')
+spawnEffects:CUSTOM:birth
+text: Level: (7)
+description: 700 XP to next level
+displayType: infoOnly
+pos: 0
+buildSpeed: 0s
+temporarilyAddTags:lvl7
+setUnitStats: maxHp+=25, hp+=25, shootDamageMultiplier=1.7
+
+[action_level8]
+isActive:false
+isVisible: if self.tags(includes='lvl7') and  not self.tags(includes='lvl8')
+autoTrigger: if self.resource(type='xp', greaterThan=800) and not self.tags(includes='lvl8')
+spawnEffects:CUSTOM:birth
+text: Level: (8)
+description: 800 XP to next level
+displayType: infoOnly
+pos: 0
+buildSpeed: 0s
+temporarilyAddTags:lvl8
+setUnitStats: maxHp+=25, hp+=25, shootDamageMultiplier=1.8
+
+[action_level9]
+isActive:false
+isVisible: if self.tags(includes='lvl8') and  not self.tags(includes='lvl9')
+autoTrigger: if self.resource(type='xp', greaterThan=900) and not self.tags(includes='lvl9')
+spawnEffects:CUSTOM:birth
+text: Level: (9)
+description: 900 XP to next level
+displayType: infoOnly
+pos: 0
+buildSpeed: 0s
+temporarilyAddTags:lvl9, superVision
+setUnitStats: maxHp+=25, hp+=25, shootDamageMultiplier=1.9
+
+[action_level10]
+isActive:false
+isVisible: if self.tags(includes='lvl9')
+text: Level: (10)
+description: Maximum level reached
+
+[action_superVision]
+isVisible: if self.tags(includes='lvl9')
+iconImage:ROOT:\data\images\supervision.png
+displayType:action
+pos:1
+text: Super Vision
+description: Passive\n -This unit can detect hidden units and structures from a wider range
+buildSpeed: 0s

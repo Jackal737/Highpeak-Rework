@@ -1,0 +1,83 @@
+[resource_blackCladdingLayer]
+displayName: Cladding layers
+
+[action_blackCladding]
+iconImage:ROOT:\data\images\platedPlus.png
+displayType:action
+isVisible: if self.resource(type='BlackIron', greaterThan=0)
+isLocked: if self.resource(type='blackCladdingLayer')>=5
+isLockedMessage: Maximum 5 layers
+allowMultipleInQueue:false
+whenBuilding_cannotMove:true
+ai_isDisabled:true
+price: BlackIron=${ core.maxHp * 0.25 }
+addResources: blackCladdingLayer=1
+setUnitStats: maxHp+=${ core.maxHp * 0.1 }, hp+=${ core.maxHp * 0.1 }, moveSpeed-=${ movement.moveSpeed * 0.025 }
+text: Black Cladding
+description: -Use black iron ingots to increase hp by 10%\n -New layers of cladding slow down the unit\n -Maximum 5 layers
+buildSpeed: ${ core.maxHp * 0.05 }s
+pos: 1.1
+spawnEffects: CUSTOM:blackIronUpgrade
+
+[action_bulldozer]
+iconImage:ROOT:\data\images\bulldozerIcon.png
+displayType:action
+isVisible: if not self.tags(includes='bulldozer') and self.resource(type='BlackIron', greaterThan=0)
+allowMultipleInQueue:false
+whenBuilding_cannotMove:true
+ai_isDisabled:true
+price: BlackIron=${ core.maxHp * 0.5 }
+temporarilyAddTags:bulldozer
+setUnitStats: maxHp+=${ core.maxHp * 0.1 }, hp+=${ core.maxHp * 0.1 }
+text: Bulldozer
+description: -Use black iron ingots to install bulldozer plate\n -Increases hp by 10% and increases charge damage
+buildSpeed: ${ core.maxHp * 0.05 }s
+pos: 1.2
+spawnEffects: CUSTOM:blackIronUpgrade
+
+[arm_1]
+hidden: if not self.tags(includes='bulldozer')
+x: 0
+y: 21
+drawOverBody:true
+image_end:  ROOT:\data\images\bulldozer.png
+
+[hiddenAction_bulldozerCharge]
+autoTrigger:if self.isMoving() and self.tags(includes='bulldozer')
+fireTurretXAtGround: bulldozerCharge
+fireTurretXAtGround_withOffset:0,50
+[turret_bulldozerCharge]
+x: 0
+y: 0
+size:0
+canShoot:false
+invisible: true
+projectile: bulldozerCharge
+turnSpeed: 40
+[projectile_bulldozerCharge]
+life: 140
+speed: 10
+drawSize: 0
+targetGround:true
+explodeEffect:NONE
+deflectionPower: -1
+areaDamage: 40
+areaRadius: 45
+buildingDamageMultiplier:1
+mutator1_ifUnitWithTags:shield
+mutator1_areaDamageMultiplier:0.5
+mutator2_ifUnitWithTags:cavalry
+mutator2_areaDamageMultiplier:0
+
+[effect_blackIronUpgrade]
+alsoPlaySound:ROOT:\data\soundFx\equipWeapon.ogg:0.15
+fadeInTime:10
+alwayStartDirAtZero:true
+attachedToUnit: true
+life: 30
+alpha: 1
+image: ROOT:\data\images\upgrade.png
+priority: high
+drawUnderUnits:true
+scaleFrom:0.6
+scaleTo: 1.4

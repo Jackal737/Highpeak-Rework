@@ -1,0 +1,35 @@
+
+[action_longuiDrunkenRage]
+isLocked: if self.tags(includes='isDrunk')
+iconImage:ROOT:\data\images\platedPlus.png
+displayType:action
+whenBuilding_cannotMove:true
+ai_isHighPriority: if self.numberOfUnitsInEnemyTeam(withinRange=100, greaterThan=2, withTag='infantry') and self.hasTakenDamage(withinSeconds=2)
+price: Wine=15
+setUnitStats: maxHp+=${ core.maxHp * 0.5 }, hp+=${ core.maxHp * 0.5 }, shootDamageMultiplier+=0.4
+addResources: localWine=15
+temporarilyAddTags:DrunkenRage
+spawnEffects: CUSTOM:gettingDrunk
+text: Drunken Rage
+description: -Consumes wine to temporarily increase Hit points and Attack Damage\n -Once the effect dissipates the unit will remain vulnerable for a set duration
+buildSpeed: 0s
+addActionCooldownTime: 30s
+pos: 1
+
+[hiddenAction_longuiDrunkenRageOff]
+autoTrigger: if self.resource(type='localWine', lessThan=1) and self.tags(includes='DrunkenRage')
+temporarilyRemoveTags:DrunkenRage
+setUnitStats: maxHp-=${ core.maxHp * 0.5 }, shootDamageMultiplier-=0.4
+
+[effect_gettingDrunk]
+alsoPlaySound:ROOT:\data\soundFx\flameThrower.ogg
+fadeInTime:10
+alwayStartDirAtZero:true
+attachedToUnit: true
+life: 30
+alpha: 1
+image: ROOT:\data\images\auraWine.png
+priority: high
+drawUnderUnits:true
+scaleFrom:0.5
+scaleTo: 1.5

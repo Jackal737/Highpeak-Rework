@@ -1,0 +1,42 @@
+[effect_marker]
+alwayStartDirAtZero:true
+
+fadeInTime:10
+dirOffsetRandom:360
+xOffsetRelativeRandom:15
+yOffsetRelativeRandom:15
+attachedToUnit: true
+life: 80
+alpha: 0.6
+scaleFrom:0.7
+scaleTo: 3
+hSpeed: 0.1
+xSpeedRelativeRandom:0.14
+ySpeedRelativeRandom:0.14
+image: ROOT:\data\images\dust.png
+priority: high
+drawUnderUnits:false
+
+[effect_marker2]
+alwayStartDirAtZero:true
+
+fadeInTime:10
+dirOffsetRandom:360
+xOffsetRelativeRandom:25
+yOffsetRelativeRandom:25
+attachedToUnit: true
+life: 80
+alpha: 0.6
+scaleFrom:0.7
+scaleTo: 3
+hSpeed: 0.1
+xSpeedRelativeRandom:0.14
+ySpeedRelativeRandom:0.14
+image: ROOT:\data\images\dust.png
+priority: high
+drawUnderUnits:true
+
+[graphics]
+repairEffect:NONE
+repairEffectAtTarget:CUSTOM:marker*3, CUSTOM:marker2*2
+repairEffectRate:10

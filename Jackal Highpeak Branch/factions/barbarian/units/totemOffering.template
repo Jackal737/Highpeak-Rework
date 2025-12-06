@@ -1,0 +1,141 @@
+[hiddenAction_trophyGetValue]
+autoTriggerOnEvent:newMessage(withTag='trophy')
+setResourcesWithLogic:trophySize=EventData("trophyValue", type="float")
+alsoTriggerAction:trophySetValue
+
+[hiddenAction_trophySetValue]
+setResourcesWithLogic:trophyValue=self.resource.trophySize
+requireConditional:if self.resource.trophySize >= self.resource.trophyValue
+alsoTriggerAction:trophySetLevel1, trophySetLevel2, trophySetLevel3
+
+[hiddenAction_resetTrophyValue]
+setResourcesWithLogic:trophySize=0,trophyValue=0, trophyLevel=0
+
+[hiddenAction_trophySetLevel1]
+setResourcesWithLogic:trophyLevel=1
+requireConditional:if self.resource.trophyValue <= 50
+[hiddenAction_trophySetLevel2]
+setResourcesWithLogic:trophyLevel=2
+requireConditional:if self.resource.trophyValue >= 50 and self.resource.trophyValue <= 100
+[hiddenAction_trophySetLevel3]
+setResourcesWithLogic:trophyLevel=3
+requireConditional:if self.resource.trophyValue >= 100
+
+[action_wolf]
+alsoTriggerAction:resetTrophyValue
+spawnEffectsOnQueue:CUSTOM:wolfHowl
+isVisible: if ((numberOfUnitsInTeam(withTag='hunterTotem', withinRange=110, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='hunterTotem', withinRange=110, greaterThan=0))and not self.tags(includes='elite')) or self.isControlledByAI()
+isLocked: if self.isControlledByAI() and self.tags(includes='elite')
+isLockedAlt: if self.isControlledByAI() and self.kills(lessThan=4) 
+unitShownInUI:highpeakBarbarianInfantry_4
+convertTo:highpeakBarbarianInfantry_4
+addResources: hp=1000
+displayType: upgrade
+price:  trophy=1, trophyLevel=1, Gazul=100
+text: Honor the wolf spirit
+description:-Use your trophy to honor this spirit\n -Be reborn as an animal warrior\n -Good vs infantry\n -Stealthy\n -Super vision\n -fast\n -Raider
+buildSpeed: 0s
+pos:1
+[effect_wolfHowl]
+alsoEmitEffects: CUSTOM:upgrade
+alsoPlaySound:ROOT:\data\soundFx\wolfHowl.ogg:0.25
+
+[action_eagle]
+alsoTriggerAction:resetTrophyValue
+spawnEffectsOnQueue:CUSTOM:eagleHowl
+isVisible: if ((numberOfUnitsInTeam(withTag='hunterTotem', withinRange=110, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='hunterTotem', withinRange=110, greaterThan=0))and not self.tags(includes='elite')) or self.isControlledByAI()
+isLocked: if self.isControlledByAI() and self.tags(includes='elite')
+isLockedAlt: if self.isControlledByAI() and self.kills(lessThan=4) 
+unitShownInUI:highpeakBarbarianInfantry_2
+convertTo:highpeakBarbarianInfantry_2_ready
+addResources: hp=1000
+displayType: upgrade
+price:  trophy=1, trophyLevel=2, Gazul=220
+text: Honor the eagle spirit
+description:-Use your trophy to honor this spirit\n -Be reborn as an animal warrior\n -Well armed and armored\n -Good vs armour\n -Can cross cliffs
+buildSpeed: 0s
+pos:1
+[effect_eagleHowl]
+alsoEmitEffects: CUSTOM:upgrade
+alsoPlaySound:ROOT:\data\soundFx\deathGriffin.ogg:0.25
+
+[action_bear]
+alsoTriggerAction:resetTrophyValue
+spawnEffectsOnQueue:CUSTOM:bearHowl
+isVisible: if ((numberOfUnitsInTeam(withTag='guardianTotem', withinRange=110, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='guardianTotem', withinRange=110, greaterThan=0)) and not self.tags(includes='elite')) or self.isControlledByAI()
+isLocked: if self.isControlledByAI() and self.tags(includes='elite')
+isLockedAlt: if self.isControlledByAI() and self.kills(lessThan=4) 
+unitShownInUI:highpeakBarbarianInfantry_3
+convertTo:highpeakBarbarianInfantry_3
+addResources: hp=1000
+displayType: upgrade
+price:  trophy=1, trophyLevel=2, Gazul=400
+text: Honor the bear spirit
+description:-Use your trophy to honor this spirit\n -Be reborn as an animal warrior\n -Very Well armed and armored\n -Area attack with knockback\n -Good vs infantry
+buildSpeed: 0s
+pos:1
+[effect_bearHowl]
+alsoEmitEffects: CUSTOM:upgrade
+alsoPlaySound:ROOT:\data\soundFx\bearHowl.ogg:0.25
+
+[action_stag]
+alsoTriggerAction:resetTrophyValue
+spawnEffectsOnQueue:CUSTOM:stagHowl
+isVisible:  if ((numberOfUnitsInTeam(withTag='guardianTotem', withinRange=110, greaterThan=0) or self.numberOfUnitsInAllyNotOwnTeam(withTag='guardianTotem', withinRange=110, greaterThan=0)) and not self.tags(includes='elite')) or self.isControlledByAI()
+isLocked: if self.isControlledByAI() and self.tags(includes='elite')
+isLockedAlt: if self.isControlledByAI() and self.kills(lessThan=4) 
+unitShownInUI:highpeakBarbarianArcher_2
+convertTo:highpeakBarbarianArcher_2
+addResources: hp=1000
+displayType: upgrade
+price:  trophy=1, trophyLevel=2, Gazul=120
+text: Honor the stag spirit
+description:-Use your trophy to honor this spirit\n -Be reborn as an animal warrior\n -Well armed with shield\n -Good vs cavalry and monsters\n -Decent melee\n -Can cross cliffs\n -Fast
+buildSpeed: 0s
+pos:1
+[effect_stagHowl]
+alsoEmitEffects: CUSTOM:upgrade
+alsoPlaySound:ROOT:\data\soundFx\stagHowl.ogg:0.25
+
+[effect_upgrade]
+fadeInTime:10
+alwayStartDirAtZero:true
+attachedToUnit: true
+life: 30
+alpha: 1
+image: ROOT:\data\images\upgrade.png
+priority: high
+drawUnderUnits:true
+scaleFrom:0.3
+scaleTo: 0.75
+
+#-----------------------------------(decals)---------------------------
+
+[decal_trophyOverlay]
+isVisible:if self.resource(type='Trophy', greaterThan=0)
+imageStack:ROOT:data\images\trophyMarker.png, ROOT:data\images\trophy.png
+imageScale: 0.45
+hOffset:12
+stack_hOffset:0
+onlyTeam:own
+alwaysStartDirAtZero: true
+xOffsetRelative: 0
+yOffsetRelative: 0
+basePosition: self
+layer: beforeUI
+alpha: 0.85
+onlyWhileAlive: true
+onlyWithZoomLevelOrMore: 0.5
+
+[decal_trophyLvl1]
+@copyFromSection: decal_trophyOverlay
+imageStack:ROOT:data\images\trophyLvl1.png
+isVisible:if self.resource(type='TrophyLevel', greaterThan=0)
+[decal_trophyLvl2]
+@copyFromSection: decal_trophyOverlay
+imageStack:ROOT:data\images\trophyLvl2.png
+isVisible:if self.resource(type='TrophyLevel', greaterThan=1)
+[decal_trophyLvl3]
+@copyFromSection: decal_trophyOverlay
+imageStack:ROOT:data\images\trophyLvl3.png
+isVisible:if self.resource(type='TrophyLevel', greaterThan=2)
