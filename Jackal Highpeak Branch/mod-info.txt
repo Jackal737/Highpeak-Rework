@@ -1,7 +1,7 @@
 [mod]
 minVersion: 1.15p9
 title: Jackals Highpeak Branch
-description: An alternate branch of highpeak developed by Jackal, attempting to add more depth between factions by playing into their specifics gimmicks and aesthetics, breaking the normalization of the base game. Not official.
+description: A branch of the 1.6 version of Highpeak. I just add whatever i feel like. This is in no way official.
 tags: units, infantry, weapon, fantasy, ancient, monsters, total conversion, highpeak
 
 thumbnail: mod-thumbnail.png

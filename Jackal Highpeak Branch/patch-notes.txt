@@ -1,0 +1,11 @@
+Dvarik
+
+- Added Commissary, a weak ranged unit with the ability to repair.
+
+- Magna Talpa rework
+- - Hp increased, 1600 > 2250
+- - Black Cladding cost increased to 475 Black Iron
+- - Can now refit into the "Ferreus Talpa"
+
+- Adedd Ferreus Talpa
+- - Large War Machine
